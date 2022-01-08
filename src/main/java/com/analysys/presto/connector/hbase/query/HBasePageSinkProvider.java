@@ -15,12 +15,12 @@ package com.analysys.presto.connector.hbase.query;
 
 import com.analysys.presto.connector.hbase.connection.HBaseClientManager;
 import com.analysys.presto.connector.hbase.meta.HBaseInsertTableHandle;
-import io.prestosql.spi.PrestoException;
-import io.prestosql.spi.connector.*;
+import io.trino.spi.TrinoException;
+import io.trino.spi.connector.*;
 import javax.inject.Inject;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static io.prestosql.spi.StandardErrorCode.NOT_SUPPORTED;
+import static io.trino.spi.StandardErrorCode.NOT_SUPPORTED;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -47,7 +47,7 @@ public class HBasePageSinkProvider implements ConnectorPageSinkProvider {
     @Override
     public ConnectorPageSink createPageSink(ConnectorTransactionHandle transactionHandle, ConnectorSession session,
                                             ConnectorOutputTableHandle outputTableHandle) {
-        throw new PrestoException(NOT_SUPPORTED, "This connector does not support creating table.");
+        throw new TrinoException(NOT_SUPPORTED, "This connector does not support creating table.");
     }
 
     @Override

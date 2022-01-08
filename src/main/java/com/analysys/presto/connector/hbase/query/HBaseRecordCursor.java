@@ -20,10 +20,10 @@ import com.google.common.base.Preconditions;
 import io.airlift.log.Logger;
 import io.airlift.slice.Slice;
 import io.airlift.slice.Slices;
-import io.prestosql.spi.block.BlockBuilder;
-import io.prestosql.spi.block.PageBuilderStatus;
-import io.prestosql.spi.connector.RecordCursor;
-import io.prestosql.spi.type.*;
+import io.trino.spi.block.BlockBuilder;
+import io.trino.spi.block.PageBuilderStatus;
+import io.trino.spi.connector.RecordCursor;
+import io.trino.spi.type.*;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -34,9 +34,9 @@ import java.util.Map;
 
 import static com.analysys.presto.connector.hbase.utils.Constant.*;
 import static com.analysys.presto.connector.hbase.utils.Utils.arrayCopy;
-import static io.prestosql.spi.type.DoubleType.DOUBLE;
-import static io.prestosql.spi.type.IntegerType.INTEGER;
-import static io.prestosql.spi.type.TimestampType.TIMESTAMP;
+import static io.trino.spi.type.DoubleType.DOUBLE;
+import static io.trino.spi.type.IntegerType.INTEGER;
+import static io.trino.spi.type.TimestampType.TIMESTAMP;
 
 /**
  * HBase record cursor fetch record in split

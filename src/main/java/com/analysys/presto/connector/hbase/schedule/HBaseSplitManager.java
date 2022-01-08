@@ -23,11 +23,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import io.airlift.log.Logger;
 import io.airlift.slice.Slice;
-import io.prestosql.spi.HostAddress;
-import io.prestosql.spi.connector.*;
-import io.prestosql.spi.predicate.Domain;
-import io.prestosql.spi.predicate.Range;
-import io.prestosql.spi.predicate.TupleDomain;
+import io.trino.spi.HostAddress;
+import io.trino.spi.connector.*;
+import io.trino.spi.predicate.Domain;
+import io.trino.spi.predicate.Range;
+import io.trino.spi.predicate.TupleDomain;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.RegionInfo;
@@ -532,7 +532,7 @@ public class HBaseSplitManager implements ConnectorSplitManager {
                         handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.EQ,
                                 range.getSingleValue(), domain.getType()));
                     } else {
-                        if (!range.getLow().isLowerUnbounded()) {
+                        if (!range.getLowValue().isLowerUnbounded()) {
                             switch (range.getLow().getBound()) {
                                 // >
                                 // != part 1
@@ -551,7 +551,7 @@ public class HBaseSplitManager implements ConnectorSplitManager {
                                     throw new AssertionError("Unhandled bound: " + range.getLow().getBound());
                             }
                         }
-                        if (!range.getHigh().isUpperUnbounded()) {
+                        if (!range.getHighValue().isUpperUnbounded()) {
                             switch (range.getHigh().getBound()) {
                                 case ABOVE:
                                     throw new IllegalArgumentException("High Marker should never use ABOVE bound: " + range);

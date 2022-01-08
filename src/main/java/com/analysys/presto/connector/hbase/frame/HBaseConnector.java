@@ -17,8 +17,8 @@ import com.analysys.presto.connector.hbase.meta.HBaseMetadata;
 import com.analysys.presto.connector.hbase.schedule.HBaseSplitManager;
 import io.airlift.bootstrap.LifeCycleManager;
 import io.airlift.log.Logger;
-import io.prestosql.spi.connector.*;
-import io.prestosql.spi.transaction.IsolationLevel;
+import io.trino.spi.connector.*;
+import io.trino.spi.transaction.IsolationLevel;
 import javax.inject.Inject;
 
 import static java.util.Objects.requireNonNull;

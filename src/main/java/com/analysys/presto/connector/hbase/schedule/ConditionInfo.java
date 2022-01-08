@@ -18,11 +18,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.airlift.log.Logger;
 import io.airlift.slice.Slice;
-import io.prestosql.spi.type.*;
+import io.trino.spi.type.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import java.math.BigDecimal;
 
-import static io.prestosql.spi.type.IntegerType.INTEGER;
+import static io.trino.spi.type.IntegerType.INTEGER;
 
 /**
  * Condition info
