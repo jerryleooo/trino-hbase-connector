@@ -527,6 +527,7 @@ public class HBaseSplitManager implements ConnectorSplitManager {
                             value, domain.getType()));
                 }
             } else {
+                // TODO: change based on self understanding, may need tests
                 for (Range range : domain.getValues().getRanges().getOrderedRanges()) {
                     if (range.isSingleValue()) {
                         handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.EQ,

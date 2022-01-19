@@ -177,7 +177,7 @@ public class HBasePageSink implements ConnectorPageSink {
 
             put.addColumn(Bytes.toBytes(columnFamilyName), Bytes.toBytes(columnName),
                     Bytes.toBytes(value));
-        } else if (type instanceof VarcharType) {
+        } else if (type instanceof VarcharType) { // TODO: correct way to check if it is VarcharType?
             put.addColumn(Bytes.toBytes(columnFamilyName), Bytes.toBytes(columnName),
                     Bytes.toBytes(type.getSlice(block, position).toStringUtf8()));
         }

@@ -265,6 +265,8 @@ public class HBaseMetadata implements ConnectorMetadata {
     // --------------- support delete function start ---------------
     @Override
     public ColumnHandle getUpdateRowIdColumnHandle(ConnectorSession session, ConnectorTableHandle tableHandle, List<ColumnHandle> updateColumns) {
+        // TODO: updateColumns is not in use.
+
         HBaseTableHandle hth = (HBaseTableHandle) tableHandle;
         String schemaName = hth.getSchemaTableName().getSchemaName();
         String tableName = hth.getSchemaTableName().getTableName();
