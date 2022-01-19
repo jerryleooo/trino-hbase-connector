@@ -29,6 +29,7 @@ import io.trino.spi.type.DecimalType;
 import io.trino.spi.type.SqlDecimal;
 import io.trino.spi.type.StandardTypes;
 import io.trino.spi.type.Type;
+import io.trino.spi.type.VarcharType;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.Put;
@@ -45,7 +46,6 @@ import static io.trino.spi.type.BooleanType.BOOLEAN;
 import static io.trino.spi.type.DoubleType.DOUBLE;
 import static io.trino.spi.type.IntegerType.INTEGER;
 import static io.trino.spi.type.TimestampType.TIMESTAMP;
-import static io.trino.spi.type.Varchars.isVarcharType;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 
@@ -177,7 +177,7 @@ public class HBasePageSink implements ConnectorPageSink {
 
             put.addColumn(Bytes.toBytes(columnFamilyName), Bytes.toBytes(columnName),
                     Bytes.toBytes(value));
-        } else if (isVarcharType(type)) {
+        } else if (type instanceof VarcharType) {
             put.addColumn(Bytes.toBytes(columnFamilyName), Bytes.toBytes(columnName),
                     Bytes.toBytes(type.getSlice(block, position).toStringUtf8()));
         }

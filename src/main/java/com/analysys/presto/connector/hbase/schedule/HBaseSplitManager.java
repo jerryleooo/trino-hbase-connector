@@ -532,42 +532,27 @@ public class HBaseSplitManager implements ConnectorSplitManager {
                         handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.EQ,
                                 range.getSingleValue(), domain.getType()));
                     } else {
-                        if (!range.getLowValue().isLowerUnbounded()) {
-                            switch (range.getLow().getBound()) {
-                                // >
-                                // != part 1
-                                case ABOVE:
-                                    handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.GT,
-                                            range.getLow().getValue(), domain.getType()));
-                                    break;
+                        if (!range.isLowUnbounded()) {
+                            if (range.isLowInclusive()) {
                                 // >=
-                                case EXACTLY:
-                                    handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.GE,
-                                            range.getLow().getValue(), domain.getType()));
-                                    break;
-                                case BELOW:
-                                    throw new IllegalArgumentException("Low Marker should never use BELOW bound: " + range);
-                                default:
-                                    throw new AssertionError("Unhandled bound: " + range.getLow().getBound());
+                                handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.GE,
+                                        range.getLowValue(), domain.getType()));
+                            } else {
+                                // >
+                                handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.GT,
+                                        range.getLowValue(), domain.getType()));
+
                             }
                         }
-                        if (!range.getHighValue().isUpperUnbounded()) {
-                            switch (range.getHigh().getBound()) {
-                                case ABOVE:
-                                    throw new IllegalArgumentException("High Marker should never use ABOVE bound: " + range);
-                                    // <=
-                                case EXACTLY:
-                                    handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.LE,
-                                            range.getHigh().getValue(), domain.getType()));
-                                    break;
+                        if (!range.isHighUnbounded()) {
+                            if (range.isHighInclusive()) {
+                                // <=
+                                handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.LE,
+                                        range.getHighValue(), domain.getType()));
+                            } else {
                                 // <
-                                // !=
-                                case BELOW:
-                                    handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.LT,
-                                            range.getHigh().getValue(), domain.getType()));
-                                    break;
-                                default:
-                                    throw new AssertionError("Unhandled bound: " + range.getHigh().getBound());
+                                handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.LT,
+                                        range.getHighValue(), domain.getType()));
                             }
                         }
                         // If rangeConjuncts is null, then the range was ALL, which should already have been checked for
