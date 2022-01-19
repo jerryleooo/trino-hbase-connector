@@ -16,9 +16,9 @@ package com.analysys.presto.connector.hbase.meta;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
-import io.prestosql.spi.connector.ConnectorInsertTableHandle;
-import io.prestosql.spi.connector.SchemaTableName;
-import io.prestosql.spi.type.Type;
+import io.trino.spi.connector.ConnectorInsertTableHandle;
+import io.trino.spi.connector.SchemaTableName;
+import io.trino.spi.type.Type;
 import java.util.List;
 import java.util.Map;
 

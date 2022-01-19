@@ -15,8 +15,8 @@ package com.analysys.presto.connector.hbase.schedule;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.prestosql.spi.HostAddress;
-import io.prestosql.spi.connector.ConnectorSplit;
+import io.trino.spi.HostAddress;
+import io.trino.spi.connector.ConnectorSplit;
 import org.apache.hadoop.hbase.client.RegionInfo;
 import java.util.List;
 import java.util.Objects;

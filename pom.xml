@@ -16,12 +16,12 @@
     <groupId>com.analysys.presto</groupId>
     <version>meta-0.1.6-SNAPSHOT</version>
 
-    <artifactId>prestosql-hbase-338-ops</artifactId>
-    <description>PrestoSql - HBase Connector</description>
+    <artifactId>trino-hbase-356-ops</artifactId>
+    <description>Trino - HBase Connector</description>
 
     <properties>
         <air.check.skip-license>true</air.check.skip-license>
-        <presto.version>338</presto.version>
+        <trino.version>356</trino.version>
         <dep.airlift.version>0.198</dep.airlift.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
@@ -83,22 +83,22 @@
         <!-- Presto SPI -->
 
         <dependency>
-            <groupId>io.prestosql</groupId>
-            <artifactId>presto-main</artifactId>
-            <version>${presto.version}</version>
+            <groupId>io.trino</groupId>
+            <artifactId>trino-main</artifactId>
+            <version>${trino.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>io.prestosql</groupId>
-            <artifactId>presto-array</artifactId>
-            <version>${presto.version}</version>
+            <groupId>io.trino</groupId>
+            <artifactId>trino-array</artifactId>
+            <version>${trino.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>io.prestosql</groupId>
-            <artifactId>presto-spi</artifactId>
-            <version>${presto.version}</version>
+            <groupId>io.trino</groupId>
+            <artifactId>trino-spi</artifactId>
+            <version>${trino.version}</version>
         </dependency>
 
         <dependency>

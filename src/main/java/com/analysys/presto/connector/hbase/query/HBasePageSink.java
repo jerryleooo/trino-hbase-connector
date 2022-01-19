@@ -20,15 +20,16 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import io.airlift.log.Logger;
 import io.airlift.slice.Slice;
-import io.prestosql.spi.Page;
-import io.prestosql.spi.block.Block;
-import io.prestosql.spi.block.DictionaryBlock;
-import io.prestosql.spi.block.VariableWidthBlock;
-import io.prestosql.spi.connector.ConnectorPageSink;
-import io.prestosql.spi.type.DecimalType;
-import io.prestosql.spi.type.SqlDecimal;
-import io.prestosql.spi.type.StandardTypes;
-import io.prestosql.spi.type.Type;
+import io.trino.spi.Page;
+import io.trino.spi.block.Block;
+import io.trino.spi.block.DictionaryBlock;
+import io.trino.spi.block.VariableWidthBlock;
+import io.trino.spi.connector.ConnectorPageSink;
+import io.trino.spi.type.DecimalType;
+import io.trino.spi.type.SqlDecimal;
+import io.trino.spi.type.StandardTypes;
+import io.trino.spi.type.Type;
+import io.trino.spi.type.VarcharType;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.Put;
@@ -40,12 +41,11 @@ import java.util.concurrent.CompletableFuture;
 
 import static com.analysys.presto.connector.hbase.utils.Constant.ARRAY_STRING_SPLITTER;
 import static com.analysys.presto.connector.hbase.utils.Constant.SYSTEMOUT_INTERVAL;
-import static io.prestosql.spi.type.BigintType.BIGINT;
-import static io.prestosql.spi.type.BooleanType.BOOLEAN;
-import static io.prestosql.spi.type.DoubleType.DOUBLE;
-import static io.prestosql.spi.type.IntegerType.INTEGER;
-import static io.prestosql.spi.type.TimestampType.TIMESTAMP;
-import static io.prestosql.spi.type.Varchars.isVarcharType;
+import static io.trino.spi.type.BigintType.BIGINT;
+import static io.trino.spi.type.BooleanType.BOOLEAN;
+import static io.trino.spi.type.DoubleType.DOUBLE;
+import static io.trino.spi.type.IntegerType.INTEGER;
+import static io.trino.spi.type.TimestampType.TIMESTAMP;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 
@@ -177,7 +177,7 @@ public class HBasePageSink implements ConnectorPageSink {
 
             put.addColumn(Bytes.toBytes(columnFamilyName), Bytes.toBytes(columnName),
                     Bytes.toBytes(value));
-        } else if (isVarcharType(type)) {
+        } else if (type instanceof VarcharType) { // TODO: correct way to check if it is VarcharType?
             put.addColumn(Bytes.toBytes(columnFamilyName), Bytes.toBytes(columnName),
                     Bytes.toBytes(type.getSlice(block, position).toStringUtf8()));
         }

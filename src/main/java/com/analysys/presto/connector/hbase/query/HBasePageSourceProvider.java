@@ -18,7 +18,7 @@ package com.analysys.presto.connector.hbase.query;
 
 import com.analysys.presto.connector.hbase.connection.HBaseClientManager;
 import com.analysys.presto.connector.hbase.meta.HBaseColumnHandle;
-import io.prestosql.spi.connector.*;
+import io.trino.spi.connector.*;
 import javax.inject.Inject;
 import java.util.List;
 
@@ -46,7 +46,8 @@ public class HBasePageSourceProvider implements ConnectorPageSourceProvider {
                                                 ConnectorSession session,
                                                 ConnectorSplit split,
                                                 ConnectorTableHandle table,
-                                                List<ColumnHandle> columns) {
+                                                List<ColumnHandle> columns,
+                                                DynamicFilter dynamicFilter) {
         HBaseRecordSet recordSet = (HBaseRecordSet) recordSetProvider.getRecordSet(transactionHandle, session, split, table, columns);
         if (columns.stream().anyMatch(ch -> ((HBaseColumnHandle) ch).isRowKey())) {
             return new HBaseUpdatablePageSource(recordSet, hbaseClientManager);

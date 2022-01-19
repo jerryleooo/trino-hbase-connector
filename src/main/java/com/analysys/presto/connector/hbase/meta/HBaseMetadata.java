@@ -21,11 +21,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.airlift.log.Logger;
 import io.airlift.slice.Slice;
-import io.prestosql.spi.connector.*;
-import io.prestosql.spi.predicate.TupleDomain;
-import io.prestosql.spi.statistics.ComputedStatistics;
-import io.prestosql.spi.type.Type;
-import io.prestosql.spi.type.VarcharType;
+import io.trino.spi.connector.*;
+import io.trino.spi.predicate.TupleDomain;
+import io.trino.spi.statistics.ComputedStatistics;
+import io.trino.spi.type.Type;
+import io.trino.spi.type.VarcharType;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.SnapshotType;
@@ -264,7 +264,9 @@ public class HBaseMetadata implements ConnectorMetadata {
 
     // --------------- support delete function start ---------------
     @Override
-    public ColumnHandle getUpdateRowIdColumnHandle(ConnectorSession session, ConnectorTableHandle tableHandle) {
+    public ColumnHandle getUpdateRowIdColumnHandle(ConnectorSession session, ConnectorTableHandle tableHandle, List<ColumnHandle> updateColumns) {
+        // TODO: updateColumns is not in use.
+
         HBaseTableHandle hth = (HBaseTableHandle) tableHandle;
         String schemaName = hth.getSchemaTableName().getSchemaName();
         String tableName = hth.getSchemaTableName().getTableName();

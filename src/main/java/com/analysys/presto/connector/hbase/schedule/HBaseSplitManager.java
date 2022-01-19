@@ -23,11 +23,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import io.airlift.log.Logger;
 import io.airlift.slice.Slice;
-import io.prestosql.spi.HostAddress;
-import io.prestosql.spi.connector.*;
-import io.prestosql.spi.predicate.Domain;
-import io.prestosql.spi.predicate.Range;
-import io.prestosql.spi.predicate.TupleDomain;
+import io.trino.spi.HostAddress;
+import io.trino.spi.connector.*;
+import io.trino.spi.predicate.Domain;
+import io.trino.spi.predicate.Range;
+import io.trino.spi.predicate.TupleDomain;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.RegionInfo;
@@ -527,47 +527,33 @@ public class HBaseSplitManager implements ConnectorSplitManager {
                             value, domain.getType()));
                 }
             } else {
+                // TODO: change based on self understanding, may need tests
                 for (Range range : domain.getValues().getRanges().getOrderedRanges()) {
                     if (range.isSingleValue()) {
                         handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.EQ,
                                 range.getSingleValue(), domain.getType()));
                     } else {
-                        if (!range.getLow().isLowerUnbounded()) {
-                            switch (range.getLow().getBound()) {
-                                // >
-                                // != part 1
-                                case ABOVE:
-                                    handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.GT,
-                                            range.getLow().getValue(), domain.getType()));
-                                    break;
+                        if (!range.isLowUnbounded()) {
+                            if (range.isLowInclusive()) {
                                 // >=
-                                case EXACTLY:
-                                    handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.GE,
-                                            range.getLow().getValue(), domain.getType()));
-                                    break;
-                                case BELOW:
-                                    throw new IllegalArgumentException("Low Marker should never use BELOW bound: " + range);
-                                default:
-                                    throw new AssertionError("Unhandled bound: " + range.getLow().getBound());
+                                handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.GE,
+                                        range.getLowValue(), domain.getType()));
+                            } else {
+                                // >
+                                handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.GT,
+                                        range.getLowValue(), domain.getType()));
+
                             }
                         }
-                        if (!range.getHigh().isUpperUnbounded()) {
-                            switch (range.getHigh().getBound()) {
-                                case ABOVE:
-                                    throw new IllegalArgumentException("High Marker should never use ABOVE bound: " + range);
-                                    // <=
-                                case EXACTLY:
-                                    handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.LE,
-                                            range.getHigh().getValue(), domain.getType()));
-                                    break;
+                        if (!range.isHighUnbounded()) {
+                            if (range.isHighInclusive()) {
+                                // <=
+                                handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.LE,
+                                        range.getHighValue(), domain.getType()));
+                            } else {
                                 // <
-                                // !=
-                                case BELOW:
-                                    handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.LT,
-                                            range.getHigh().getValue(), domain.getType()));
-                                    break;
-                                default:
-                                    throw new AssertionError("Unhandled bound: " + range.getHigh().getBound());
+                                handles.add(new ConditionInfo(hch.getColumnName(), CONDITION_OPER.LT,
+                                        range.getHighValue(), domain.getType()));
                             }
                         }
                         // If rangeConjuncts is null, then the range was ALL, which should already have been checked for

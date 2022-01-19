@@ -14,8 +14,8 @@
 package com.analysys.presto.connector.hbase.frame;
 
 import com.google.common.collect.ImmutableList;
-import io.prestosql.spi.Plugin;
-import io.prestosql.spi.connector.ConnectorFactory;
+import io.trino.spi.Plugin;
+import io.trino.spi.connector.ConnectorFactory;
 
 /**
  * HBase connector plugin

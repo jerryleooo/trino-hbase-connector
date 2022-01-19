@@ -17,7 +17,7 @@ import com.analysys.presto.connector.hbase.meta.HBaseColumnHandle;
 import com.analysys.presto.connector.hbase.meta.HBaseInsertTableHandle;
 import com.analysys.presto.connector.hbase.meta.HBaseTableHandle;
 import com.analysys.presto.connector.hbase.schedule.HBaseSplit;
-import io.prestosql.spi.connector.*;
+import io.trino.spi.connector.*;
 
 /**
  * HBase handle resolver
